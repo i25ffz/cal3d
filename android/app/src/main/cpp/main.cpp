@@ -149,7 +149,7 @@ void Engine::LoadResources() {
     //extract assets file to dat dir
     LoadAssets();
     demo_->setDatapath(string(app_->activity->internalDataPath) + "/");
-    theDemo.onInit();
+    demo_->onInit();
 }
 
 /**

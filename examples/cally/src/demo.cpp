@@ -101,10 +101,13 @@ std::string Demo::getDatapath()
   return m_strDatapath;
 }
 
+#ifdef ANDROID
 void Demo::setDatapath(std::string path)
 {
   m_strDatapath = path;
+  m_strCal3D_Datapath = path;
 }
+#endif
 
 //----------------------------------------------------------------------------//
 // Get the fullscreen flag                                                    //

@@ -81,7 +81,9 @@ public:
   void onRender();
   void onShutdown();
   void setDimension(int width, int height);
+#ifdef ANDROID
   void setDatapath(std::string path);
+#endif
 };
 
 extern Demo theDemo;

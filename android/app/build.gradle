@@ -1,5 +1,6 @@
 project.ext.ASSET_DIR = projectDir.toString() + '/src/main/assets'
 project.ext.DATA_DIR = projectDir.toString() + '/../../data/cally'
+project.ext.DEMO_DIR = projectDir.toString() + '/../../examples/cally/data'
 
 apply plugin: 'com.android.application'
 
@@ -46,12 +47,17 @@ task copyAssets(type: Copy) {
     into project.ext.ASSET_DIR + '/cally'
 }
 
+task copyDemos(type: Copy) {
+    from project.ext.DEMO_DIR
+    into project.ext.ASSET_DIR
+    include '**/*.raw'
+}
+
 afterEvaluate {
     // create dir if not exists
     if (!(new File(project.ext.ASSET_DIR)).exists()) {
         new File(project.ext.ASSET_DIR).mkdirs();
     }
 
-    assembleDebug.dependsOn copyAssets
-    assembleRelease.dependsOn copyAssets
+    assembleDebug.dependsOn copyAssets, copyDemos
 }
