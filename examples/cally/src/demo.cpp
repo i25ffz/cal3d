@@ -17,7 +17,9 @@
 #include <pthread.h>
 void junk() {
   int i;
+#ifndef ANDROID
   i=pthread_getconcurrency();
+#endif
 };
 #endif
 
@@ -97,6 +99,11 @@ std::string Demo::getCaption()
 std::string Demo::getDatapath()
 {
   return m_strDatapath;
+}
+
+void Demo::setDatapath(std::string path)
+{
+  m_strDatapath = path;
 }
 
 //----------------------------------------------------------------------------//
@@ -352,8 +359,10 @@ void Demo::onIdle()
   // current tick will be last tick next round
   m_lastTick = tick;
 
+#ifndef ANDROID
   // update the screen
   glutPostRedisplay();
+#endif
 }
 
 //----------------------------------------------------------------------------//
@@ -364,9 +373,11 @@ bool Demo::onInit()
 {
   // load the cursor texture
   std::string strFilename;
+#ifndef ANDROID
   strFilename = m_strDatapath + "cursor.raw";
 
   if(!loadTexture(strFilename, m_cursorTextureId)) return false;
+#endif
 
   // load the logo texture
   strFilename = m_strDatapath + "logo.raw";
@@ -479,6 +490,7 @@ void Demo::onMouseButtonDown(int button, int x, int y)
   // let the meu handle mouse buttons first
   if(!theMenu.onMouseButtonDown(button, x, y))
   {
+#ifndef ANDROID
     // update mouse button states
     if(button == GLUT_LEFT_BUTTON)
     {
@@ -489,6 +501,7 @@ void Demo::onMouseButtonDown(int button, int x, int y)
     {
       m_bRightMouseButtonDown = true;
     }
+#endif
   }
 
   // update internal mouse position
@@ -505,6 +518,7 @@ void Demo::onMouseButtonUp(int button, int x, int y)
   // let the meu handle mouse buttons first
   if(!theMenu.onMouseButtonUp(button, x, y))
   {
+#ifndef ANDROID
     // update mouse button states
     if(button == GLUT_LEFT_BUTTON)
     {
@@ -515,6 +529,7 @@ void Demo::onMouseButtonUp(int button, int x, int y)
     {
       m_bRightMouseButtonDown = false;
     }
+#endif
   }
 
   // update internal mouse position
@@ -581,8 +596,9 @@ void Demo::onRender()
   // set the projection transformation
   glMatrixMode(GL_PROJECTION);
   glLoadIdentity();
+#ifndef ANDROID
   gluPerspective(45.0f, (GLdouble)m_width / (GLdouble)m_height, renderScale * 50.0, renderScale * 5000.0);
-
+#endif
   // set the model transformation
   glMatrixMode(GL_MODELVIEW);
   glLoadIdentity();
@@ -609,7 +625,9 @@ void Demo::onRender()
   // switch to orthogonal projection for 2d stuff
   glMatrixMode(GL_PROJECTION);
   glLoadIdentity();
+#ifndef ANDROID
   glOrtho(0, (GLdouble)m_width, 0, (GLdouble)m_height, -1.0f, 1.0f);
+#endif
 
   glMatrixMode(GL_MODELVIEW);
   glLoadIdentity();
@@ -625,7 +643,7 @@ void Demo::onRender()
 
   // render the logo
   glBindTexture(GL_TEXTURE_2D, m_logoTextureId);
-
+#ifndef ANDROID
   glColor3f(1.0f, 1.0f, 1.0f);
   glBegin(GL_QUADS);
     glTexCoord2f(0.0f, 1.0f);
@@ -679,13 +697,16 @@ void Demo::onRender()
     glTexCoord2f(0.0f, 0.0f);
     glVertex2i(m_mouseX, m_mouseY);
   glEnd();
+#endif
 
   glDisable(GL_TEXTURE_2D);
   glDisable(GL_BLEND);
 
+#ifndef ANDROID
   // swap the front- and back-buffer
   glutSwapBuffers();
-
+#endif
+  
   // increase frame counter
   m_fpsFrames++;
 }

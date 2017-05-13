@@ -369,6 +369,7 @@ void Menu::onRender()
   int state;
   state = theDemo.getModel()->getState();
 
+#ifndef ANDROID
   glEnable(GL_TEXTURE_2D);
   glBindTexture(GL_TEXTURE_2D, m_textureId);
 
@@ -538,6 +539,7 @@ void Menu::onRender()
 
     glLineWidth(1.0f);
   }
+#endif
 }
 
 //----------------------------------------------------------------------------//

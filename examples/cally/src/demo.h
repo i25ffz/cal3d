@@ -81,6 +81,7 @@ public:
   void onRender();
   void onShutdown();
   void setDimension(int width, int height);
+  void setDatapath(std::string path);
 };
 
 extern Demo theDemo;

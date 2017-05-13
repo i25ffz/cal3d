@@ -141,7 +141,16 @@ double Tick::getTime()
   return SDL_GetTicks();
 }
 #  else
+#   ifdef ANDROID
+double Tick::getTime()
+{
+    struct timespec now;
+    clock_gettime(CLOCK_MONOTONIC, &now);
+    return now.tv_sec*1000 + now.tv_nsec / 1000000.f;
+}
+#   else
 #   error "no timer implemented for your plateform"
+#   endif
 #  endif
 # endif
 #endif

@@ -428,7 +428,7 @@ void Model::renderSkeleton()
   int nrLines;
   nrLines =  m_calModel->getSkeleton()->getBoneLines(&lines[0][0][0]);
 //  nrLines = m_calModel->getSkeleton()->getBoneLinesStatic(&lines[0][0][0]);
-
+#ifndef ANDROID
   glLineWidth(3.0f);
   glColor3f(1.0f, 1.0f, 1.0f);
   glBegin(GL_LINES);
@@ -457,6 +457,7 @@ void Model::renderSkeleton()
     }
   glEnd();
   glPointSize(1.0f);
+#endif
 }
 
 //----------------------------------------------------------------------------//
@@ -465,7 +466,7 @@ void Model::renderSkeleton()
 
 void Model::renderBoundingBox()
 {  
-
+#ifndef ANDROID
    CalSkeleton *pCalSkeleton = m_calModel->getSkeleton();
 
    std::vector<CalBone*> &vectorCoreBone = pCalSkeleton->getVectorBone();
@@ -520,7 +521,7 @@ void Model::renderBoundingBox()
    }
 
    glEnd();
-
+#endif
 }
 
 
@@ -536,13 +537,13 @@ void Model::renderMesh(bool bWireframe, bool bLight)
 
   // begin the rendering loop
   if(!pCalRenderer->beginRendering()) return;
-
+#ifndef ANDROID
   // set wireframe mode if necessary
   if(bWireframe)
   {
     glPolygonMode(GL_FRONT_AND_BACK, GL_LINE);
   }
-
+#endif
   // set the global OpenGL states
   glEnable(GL_DEPTH_TEST);
   glShadeModel(GL_SMOOTH);
@@ -589,13 +590,13 @@ void Model::renderMesh(bool bWireframe, bool bLight)
         pCalRenderer->getDiffuseColor(&meshColor[0]);
         materialColor[0] = meshColor[0] / 255.0f;  materialColor[1] = meshColor[1] / 255.0f; materialColor[2] = meshColor[2] / 255.0f; materialColor[3] = meshColor[3] / 255.0f;
         glMaterialfv(GL_FRONT, GL_DIFFUSE, materialColor);
-
+#ifndef ANDROID
         // set the vertex color if we have no lights
         if(!bLight)
         {
           glColor4fv(materialColor);
         }
-
+#endif
         // set the material specular color
         pCalRenderer->getSpecularColor(&meshColor[0]);
         materialColor[0] = meshColor[0] / 255.0f;  materialColor[1] = meshColor[1] / 255.0f; materialColor[2] = meshColor[2] / 255.0f; materialColor[3] = meshColor[3] / 255.0f;
@@ -641,7 +642,9 @@ void Model::renderMesh(bool bWireframe, bool bLight)
 
           // set the texture coordinate buffer
           glTexCoordPointer(2, GL_FLOAT, 0, &meshTextureCoordinates[0][0]);
+#ifndef ANDROID
           glColor3f(1.0f, 1.0f, 1.0f);
+#endif
         }
 
         // draw the submesh
@@ -690,13 +693,13 @@ glEnd();
 
   // reset the global OpenGL states
   glDisable(GL_DEPTH_TEST);
-
+#ifndef ANDROID
   // reset wireframe mode if necessary
   if(bWireframe)
   {
     glPolygonMode(GL_FRONT_AND_BACK, GL_FILL);
   }
-
+#endif
   // end the rendering
   pCalRenderer->endRendering();
 }

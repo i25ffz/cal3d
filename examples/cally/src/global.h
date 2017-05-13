@@ -26,10 +26,14 @@
 #include <iostream>
 #include <fstream>
 #include <string>
+#ifdef ANDROID
+#include <GLES/gl.h>
+#include <GLES/glext.h>
+#else
 #include <GL/gl.h>
 #include <GL/glu.h>
 #include <GL/glut.h>
-
+#endif
 #include "cal3d/cal3d.h"
 
 #endif
